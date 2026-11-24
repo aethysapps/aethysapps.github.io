@@ -3,42 +3,127 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aethys Apps: termos e privacidade</title>
+  <title>Aethys Apps</title>
+  <meta name="description" content="Apps e jogos da Aethys: Terço, Consenso e Escala. Termos de uso e políticas de privacidade.">
+  <meta name="theme-color" content="#04050d">
+  <meta property="og:title" content="Aethys Apps">
+  <meta property="og:description" content="Apps e jogos leves como o éter.">
+  <meta property="og:image" content="https://aethysapps.github.io/img/aethys-og.jpg">
+  <link rel="icon" type="image/png" href="img/aethys-icone.png">
+  <link rel="apple-touch-icon" href="img/aethys-icone.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Fraunces:opsz,wght@9..144,700&family=Inter:wght@400;600&family=Lora:wght@400;600&family=Sora:wght@300;500;600&display=swap">
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-<main>
-  <h1>Aethys Apps</h1>
-  <p class="meta">Termos de uso e políticas de privacidade. Atualizado em 20/11/2026.</p>
-  <p>Todos os apps guardam seus dados só no seu celular. Não há cadastro, login nem anúncios.</p>
-  <ul class="apps">
-    <li>
-      <h2>Dias Sem Bet: Parar de Apostar</h2>
-      <p>Contador de dias, botão SOS e bloqueio de sites e apps de apostas.</p>
-      <p><a href="dias-sem-bet/privacidade.html">Privacidade</a> · <a href="dias-sem-bet/termos.html">Termos de uso</a></p>
-    </li>
-    <li>
-      <h2>Estude e Libere: Questões Enem</h2>
-      <p>Responda questões do Enem para liberar as redes sociais.</p>
-      <p><a href="estude-e-libere/privacidade.html">Privacidade</a> · <a href="estude-e-libere/termos.html">Termos de uso</a></p>
-    </li>
-    <li>
-      <h2>Contas em Dia: Lembrete TDAH</h2>
-      <p>Lembretes que insistem até você pagar a conta.</p>
-      <p><a href="contas-em-dia/privacidade.html">Privacidade</a> · <a href="contas-em-dia/termos.html">Termos de uso</a></p>
-    </li>
-    <li>
-      <h2>Passatempo: Passos e Apps</h2>
-      <p>Caminhe para liberar minutos de redes sociais.</p>
-      <p><a href="passatempo/privacidade.html">Privacidade</a> · <a href="passatempo/termos.html">Termos de uso</a></p>
-    </li>
-    <li>
-      <h2>Terço</h2>
-      <p>Reze uma oração curta, uma dezena ou o terço para liberar o celular.</p>
-      <p><a href="terco-para-desbloquear/privacidade.html">Privacidade</a> · <a href="terco-para-desbloquear/termos.html">Termos de uso</a></p>
-    </li>
-  </ul>
-  <p class="meta">Contato: CONTATO_A_DEFINIR</p>
-</main>
+<div class="pagina">
+  <header class="topo">
+    <a class="marca" href="./"><img src="img/aethys-marca.webp" alt="" width="34" height="34"><span>Aethys</span></a>
+    <nav aria-label="Seções"><a href="#destaques">Destaques</a><a href="#em-breve">Em breve</a><a href="#politicas">Privacidade</a></nav>
+  </header>
+
+  <section class="abertura">
+    <div class="orbita">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="luz" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7fc3ff" stop-opacity="0"/>
+            <stop offset="0.45" stop-color="#9d8cff" stop-opacity="0.9"/>
+            <stop offset="1" stop-color="#e6ecff" stop-opacity="0.1"/>
+          </linearGradient>
+          <radialGradient id="estrela"><stop offset="0" stop-color="#fff"/><stop offset="0.35" stop-color="#cfe0ff" stop-opacity="0.9"/><stop offset="1" stop-color="#8fa8ff" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(160,175,255,0.12)" stroke-width="0.25"/>
+        <g class="anel">
+          <ellipse cx="50" cy="50" rx="49" ry="17" fill="none" stroke="url(#luz)" stroke-width="0.45" transform="rotate(-22 50 50)"/>
+          <circle cx="94.5" cy="32" r="3.2" fill="url(#estrela)"/>
+        </g>
+      </svg>
+      <img src="img/aethys.webp" alt="Aethys" width="560" height="560">
+    </div>
+    <h1>Apps e jogos leves <strong>como o éter</strong></h1>
+    <p>Feitos com cuidado, para o que importa: rezar, conversar, jogar junto. Sem anúncios e sem cadastro.</p>
+  </section>
+
+  <section class="secao" id="destaques">
+    <h2>Destaques</h2>
+    <div class="destaques">
+      <article class="cartao terco">
+        <img class="icone app" src="img/terco.webp" alt="" width="84" height="84">
+        <h3>Terço</h3>
+        <p class="lema">Vigiai e orai.</p>
+        <p>O terço do dia com os mistérios, o santo do dia e um altar em 3D. Se quiser, reze antes de abrir os apps que distraem.</p>
+        <div class="detalhe">
+          <span class="selo">App Android</span>
+          <a href="terco-para-desbloquear/privacidade.html">Privacidade</a>
+          <a href="terco-para-desbloquear/termos.html">Termos</a>
+        </div>
+      </article>
+
+      <article class="cartao consenso">
+        <svg class="icone" viewBox="0 0 100 100" role="img" aria-label="Símbolo do Consenso">
+          <circle cx="50" cy="31" r="31" fill="#f0b94a" fill-opacity="0.78"/>
+          <circle cx="31" cy="69" r="31" fill="#7d5cff" fill-opacity="0.78"/>
+          <circle cx="69" cy="69" r="31" fill="#b84fd8" fill-opacity="0.78"/>
+        </svg>
+        <h3 class="letras" aria-label="Consenso"><span style="color:#8f73ff">C</span><span style="color:#c463e0">o</span><span style="color:#f0b94a">n</span><span style="color:#8f73ff">s</span><span style="color:#c463e0">e</span><span style="color:#f0b94a">n</span><span style="color:#8f73ff">s</span><span style="color:#c463e0">o</span></h3>
+        <p class="lema">Pensamento em harmonia.</p>
+        <p>Uma pergunta sem resposta certa. Pense como a maioria: quem destoa pontua, e ganha quem tiver menos pontos.</p>
+        <div class="detalhe">
+          <span class="selo">Jogo de grupo</span>
+          <span>3 a 20 pessoas</span>
+        </div>
+      </article>
+
+      <article class="cartao escala">
+        <svg class="icone" viewBox="0 0 100 100" role="img" aria-label="Símbolo do Escala">
+          <rect x="0" y="72" width="15.2" height="28" rx="5.3" fill="#1fb8c1"/>
+          <rect x="21.2" y="54" width="15.2" height="46" rx="5.3" fill="#5fc68e"/>
+          <rect x="42.4" y="36" width="15.2" height="64" rx="5.3" fill="#9fd35c"/>
+          <rect x="63.6" y="18" width="15.2" height="82" rx="5.3" fill="#c8bb4c"/>
+          <rect x="84.8" y="0" width="15.2" height="100" rx="5.3" fill="#f0a43c"/>
+        </svg>
+        <h3 class="letras" aria-label="Escala"><span style="color:#1fb8c1">E</span><span style="color:#4fc2a0">s</span><span style="color:#87cd73">c</span><span style="color:#b6c955">a</span><span style="color:#d8b448">l</span><span style="color:#f0a43c">a</span></h3>
+        <p class="lema">Do 1 ao 100, todo mundo junto.</p>
+        <p>Cada um recebe um número secreto. Juntos, vocês montam uma escala só, e a sala acerta ou erra junto.</p>
+        <div class="detalhe">
+          <span class="selo">Jogo colaborativo</span>
+          <span>3 a 20 pessoas</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="secao" id="em-breve">
+    <h2>Em breve</h2>
+    <ul class="breve">
+      <li><img src="img/dias-sem-bet.webp" alt="" width="40" height="40"><div><strong>Dias Sem Bet</strong><small>em breve</small></div></li>
+      <li><img src="img/estude-e-libere.webp" alt="" width="40" height="40"><div><strong>Estude e Libere</strong><small>em breve</small></div></li>
+      <li><img src="img/contas-em-dia.webp" alt="" width="40" height="40"><div><strong>Contas em Dia</strong><small>em breve</small></div></li>
+      <li><img src="img/passatempo.webp" alt="" width="40" height="40"><div><strong>Passatempo</strong><small>em breve</small></div></li>
+    </ul>
+  </section>
+
+  <footer class="rodape" id="politicas">
+    <div class="linhas">
+      <div class="politicas">
+        <h4>Privacidade e termos</h4>
+        <ul>
+          <li><a href="terco-para-desbloquear/privacidade.html">Terço</a> · <a href="terco-para-desbloquear/termos.html">termos</a></li>
+          <li><a href="dias-sem-bet/privacidade.html">Dias Sem Bet</a> · <a href="dias-sem-bet/termos.html">termos</a></li>
+          <li><a href="estude-e-libere/privacidade.html">Estude e Libere</a> · <a href="estude-e-libere/termos.html">termos</a></li>
+          <li><a href="contas-em-dia/privacidade.html">Contas em Dia</a> · <a href="contas-em-dia/termos.html">termos</a></li>
+          <li><a href="passatempo/privacidade.html">Passatempo</a> · <a href="passatempo/termos.html">termos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a href="mailto:aethysapps@gmail.com">aethysapps@gmail.com</a>
+        <p class="meta">© 2026 Aethys Apps</p>
+      </div>
+    </div>
+  </footer>
+</div>
 </body>
 </html>

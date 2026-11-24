@@ -1,13 +1,194 @@
-:root { --bg:#ffffff; --texto:#1b1d21; --texto2:#4a4f57; --borda:#d9dce1; --link:#1b5fa8; }
-@media (prefers-color-scheme: dark) { :root { --bg:#111316; --texto:#eceef1; --texto2:#aab0b8; --borda:#2b2f35; --link:#8ab8ef; } }
+/* Aethys Apps: o céu do éter. Fundo de noite profunda, estrelas, névoa violeta e uma órbita de luz. */
+:root {
+  color-scheme: dark;
+  --ceu: #04050d;
+  --ceu2: #0a0e22;
+  --texto: #eceffd;
+  --texto2: #a9b1d8;
+  --texto3: #7f88b3;
+  --violeta: #8f7dff;
+  --azul: #5fb0ff;
+  --luz: #d9e4ff;
+  --vidro: rgba(18, 22, 48, 0.55);
+  --vidro-borda: rgba(160, 175, 255, 0.16);
+  --raio: 22px;
+  --marca: 'Sora', system-ui, sans-serif;
+  --corpo: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
 * { box-sizing: border-box; }
-body { margin:0; background:var(--bg); color:var(--texto); font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
-h1 { font-size: 1.8rem; line-height: 1.25; margin: 0 0 8px; }
-h2 { font-size: 1.25rem; margin: 32px 0 8px; }
-p, li { color: var(--texto); }
-.meta { color: var(--texto2); font-size: .9rem; }
-a { color: var(--link); }
-nav { border-bottom: 1px solid var(--borda); padding-bottom: 12px; margin-bottom: 24px; font-size: .95rem; }
-ul.apps { list-style: none; padding: 0; }
-ul.apps li { border: 1px solid var(--borda); border-radius: 12px; padding: 16px; margin: 12px 0; }
+html { background: var(--ceu); }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--texto);
+  font: 16px/1.65 var(--corpo);
+  background:
+    radial-gradient(ellipse 70% 50% at 15% -5%, rgba(98, 76, 255, 0.28), transparent 70%),
+    radial-gradient(ellipse 60% 45% at 95% 10%, rgba(60, 140, 255, 0.18), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(150, 70, 230, 0.16), transparent 70%),
+    linear-gradient(180deg, var(--ceu) 0%, var(--ceu2) 55%, var(--ceu) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Estrelas: duas camadas de pontos, uma pisca devagar. */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+body::before {
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.8), transparent 60%),
+    radial-gradient(1px 1px at 120px 80px, rgba(200, 215, 255, 0.7), transparent 60%),
+    radial-gradient(1.4px 1.4px at 220px 160px, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(1px 1px at 300px 40px, rgba(190, 200, 255, 0.6), transparent 60%),
+    radial-gradient(1px 1px at 60px 210px, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(1.2px 1.2px at 340px 250px, rgba(220, 230, 255, 0.75), transparent 60%);
+  background-size: 380px 300px;
+  opacity: 0.7;
+}
+body::after {
+  background-image:
+    radial-gradient(1.6px 1.6px at 90px 120px, rgba(255, 255, 255, 0.95), transparent 60%),
+    radial-gradient(1.3px 1.3px at 410px 60px, rgba(170, 200, 255, 0.85), transparent 60%),
+    radial-gradient(1.8px 1.8px at 260px 330px, rgba(215, 200, 255, 0.9), transparent 60%),
+    radial-gradient(1.2px 1.2px at 520px 260px, rgba(255, 255, 255, 0.8), transparent 60%);
+  background-size: 620px 460px;
+  animation: piscar 7s ease-in-out infinite alternate;
+}
+@keyframes piscar { from { opacity: 0.25; } to { opacity: 0.85; } }
+
+a { color: var(--azul); text-underline-offset: 3px; }
+a:hover { color: var(--luz); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; border-radius: 6px; }
+
+.pagina { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+/* Topo com o símbolo e o nome */
+.topo { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+.marca { display: inline-flex; align-items: center; gap: 10px; color: var(--texto); text-decoration: none; }
+.marca img { width: 34px; height: 34px; border-radius: 50%; box-shadow: 0 0 18px rgba(120, 140, 255, 0.45); }
+.marca span { font: 600 0.95rem/1 var(--marca); letter-spacing: 0.32em; text-transform: uppercase; }
+.topo nav a { color: var(--texto2); text-decoration: none; font-size: 0.92rem; margin-left: 18px; }
+.topo nav a:hover { color: var(--texto); }
+
+/* Abertura: o logo dentro de uma órbita de luz */
+.abertura { text-align: center; padding: 24px 0 56px; }
+.orbita { position: relative; width: min(340px, 78vw); aspect-ratio: 1; margin: 0 auto; }
+.orbita img {
+  position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%);
+}
+.orbita svg { position: absolute; inset: -14%; width: 128%; height: 128%; overflow: visible; }
+.orbita .anel { animation: girar 60s linear infinite; transform-origin: 50% 50%; }
+@keyframes girar { to { transform: rotate(360deg); } }
+.abertura h1 {
+  font: 300 clamp(1.7rem, 4.6vw, 2.6rem)/1.2 var(--marca);
+  margin: 18px 0 10px;
+  letter-spacing: -0.01em;
+}
+.abertura h1 strong {
+  font-weight: 600;
+  background: linear-gradient(90deg, #b7a9ff, #7fc3ff 55%, #e7d9ff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.abertura p { color: var(--texto2); max-width: 560px; margin: 0 auto; font-size: 1.05rem; }
+
+/* Títulos de seção */
+.secao { margin: 0 0 64px; }
+.secao > h2 {
+  font: 500 0.78rem/1 var(--marca); letter-spacing: 0.34em; text-transform: uppercase;
+  color: var(--texto3); margin: 0 0 22px; display: flex; align-items: center; gap: 14px;
+}
+.secao > h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--vidro-borda), transparent); }
+
+/* Destaques: três cartões grandes, cada um na identidade do seu app */
+.destaques { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
+.cartao {
+  position: relative; overflow: hidden; border-radius: var(--raio); padding: 28px 24px 24px;
+  background: var(--vidro); border: 1px solid var(--vidro-borda);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  display: flex; flex-direction: column; gap: 14px;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.cartao::before {
+  content: ''; position: absolute; inset: -40% -30% auto auto; width: 75%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, var(--brilho), transparent 65%); opacity: 0.35; pointer-events: none;
+}
+.cartao:hover { transform: translateY(-4px); border-color: var(--borda-cor); box-shadow: 0 18px 50px -18px var(--sombra); }
+.cartao .icone { width: 84px; height: 84px; display: block; }
+.cartao .icone.app { border-radius: 22px; box-shadow: 0 10px 30px -8px var(--sombra); }
+.cartao h3 { margin: 4px 0 0; font-size: 1.9rem; line-height: 1.1; }
+.cartao .lema { margin: 0; font-weight: 600; color: var(--lema); }
+.cartao p { margin: 0; color: var(--texto2); }
+.cartao .detalhe { margin-top: auto; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 0.86rem; color: var(--texto3); }
+.selo {
+  display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 600;
+  background: var(--selo-fundo); color: var(--lema); border: 1px solid var(--borda-cor);
+}
+.cartao .detalhe a { color: var(--texto2); }
+.cartao .detalhe a:hover { color: var(--texto); }
+
+/* Terço: azul-mariano e dourado, serifa de livro de orações */
+.terco { --brilho: #2b5bb8; --lema: #e9cf8a; --borda-cor: rgba(233, 207, 138, 0.45); --sombra: rgba(30, 63, 122, 0.9); --selo-fundo: rgba(30, 63, 122, 0.6);
+  background: linear-gradient(160deg, rgba(30, 63, 122, 0.55), rgba(12, 18, 44, 0.6)); }
+.terco h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; font-size: 2.4rem; color: #f6f0de; }
+.terco p:not(.lema) { font-family: 'Lora', Georgia, serif; }
+/* Consenso: violeta, magenta e dourado */
+.consenso { --brilho: #6a45e8; --lema: #c8b8ff; --borda-cor: rgba(184, 79, 216, 0.45); --sombra: rgba(91, 63, 214, 0.8); --selo-fundo: rgba(43, 34, 80, 0.7);
+  background: linear-gradient(160deg, rgba(43, 34, 80, 0.6), rgba(14, 12, 22, 0.6)); }
+/* Escala: verde-água ao âmbar */
+.escala { --brilho: #0f8f99; --lema: #8fe3e8; --borda-cor: rgba(31, 184, 193, 0.45); --sombra: rgba(15, 143, 153, 0.7); --selo-fundo: rgba(18, 58, 63, 0.7);
+  background: linear-gradient(160deg, rgba(18, 58, 63, 0.6), rgba(10, 19, 21, 0.6)); }
+.consenso h3, .escala h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; }
+.letras span { display: inline; }
+
+/* Em breve: pequenos, sem detalhe */
+.breve { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.breve li {
+  list-style: none; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 16px;
+  background: rgba(18, 22, 48, 0.4); border: 1px solid rgba(160, 175, 255, 0.1); opacity: 0.82;
+}
+.breve img { width: 40px; height: 40px; border-radius: 11px; filter: saturate(0.75); }
+.breve strong { display: block; font-size: 0.95rem; font-weight: 600; }
+.breve small { color: var(--texto3); font-size: 0.78rem; letter-spacing: 0.04em; }
+ul.breve { padding: 0; margin: 0; }
+
+/* Rodapé */
+.rodape { border-top: 1px solid var(--vidro-borda); padding: 28px 0 40px; color: var(--texto3); font-size: 0.9rem; }
+.rodape .linhas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px 32px; }
+.rodape h4 { margin: 0 0 6px; font: 500 0.72rem/1 var(--marca); letter-spacing: 0.28em; text-transform: uppercase; color: var(--texto3); }
+.rodape ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px 18px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.rodape a { color: var(--texto2); }
+.rodape .politicas { flex: 1 1 420px; }
+
+/* Páginas de texto (termos e privacidade): o mesmo céu, o texto num painel de vidro */
+.texto {
+  position: relative; z-index: 1; max-width: 760px; margin: 0 auto 64px; padding: 32px 28px 40px;
+  background: rgba(14, 18, 40, 0.72); border: 1px solid var(--vidro-borda); border-radius: var(--raio);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.texto h1 { font: 600 clamp(1.5rem, 4vw, 2rem)/1.25 var(--marca); margin: 0 0 8px; }
+.texto h2 { font: 600 1.15rem/1.3 var(--marca); margin: 32px 0 8px; color: var(--luz); }
+.texto p, .texto li { color: #d5daf3; }
+.texto code { font-size: 0.9em; background: rgba(140, 150, 220, 0.14); padding: 1px 6px; border-radius: 6px; }
+.texto nav { border-bottom: 1px solid var(--vidro-borda); padding-bottom: 12px; margin-bottom: 24px; font-size: 0.95rem; }
+.meta { color: var(--texto3); font-size: 0.9rem; }
+
+@media (max-width: 560px) {
+  .topo nav { display: none; }
+  .texto { padding: 24px 18px 32px; width: calc(100% - 32px); }
+  .orbita { width: min(300px, 70vw); }
+  .orbita svg { inset: -8%; width: 116%; height: 116%; }
+  .cartao h3 { font-size: 1.7rem; }
+  .terco h3 { font-size: 2.1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::after, .orbita .anel { animation: none; }
+  .cartao { transition: none; }
+}
