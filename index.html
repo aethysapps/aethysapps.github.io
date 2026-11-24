@@ -24,23 +24,28 @@
   </header>
 
   <section class="abertura">
-    <div class="orbita" id="orbita" title="Arraste para girar a órbita">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
+    <div class="orbita" id="orbita">
+      <!-- Back half of the orbit: behind the logo. -->
+      <svg class="atras" viewBox="0 0 100 100" aria-hidden="true">
         <defs>
-          <linearGradient id="luz" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#7fc3ff" stop-opacity="0"/>
-            <stop offset="0.45" stop-color="#9d8cff" stop-opacity="0.9"/>
-            <stop offset="1" stop-color="#e6ecff" stop-opacity="0.1"/>
+          <linearGradient id="luz" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#7fc3ff" stop-opacity="0.15"/>
+            <stop offset="0.5" stop-color="#9d8cff" stop-opacity="0.9"/>
+            <stop offset="1" stop-color="#e6ecff" stop-opacity="0.25"/>
           </linearGradient>
           <radialGradient id="estrela"><stop offset="0" stop-color="#fff"/><stop offset="0.35" stop-color="#cfe0ff" stop-opacity="0.9"/><stop offset="1" stop-color="#8fa8ff" stop-opacity="0"/></radialGradient>
         </defs>
         <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(160,175,255,0.12)" stroke-width="0.25"/>
-        <g class="anel" id="anel">
-          <ellipse cx="50" cy="50" rx="49" ry="17" fill="none" stroke="url(#luz)" stroke-width="0.45" transform="rotate(-22 50 50)"/>
-          <circle cx="94.5" cy="32" r="3.2" fill="url(#estrela)"/>
-        </g>
+        <path d="M1 50 A49 17 0 0 1 99 50" fill="none" stroke="url(#luz)" stroke-width="0.4" stroke-opacity="0.55" transform="rotate(-22 50 50)"/>
+        <g class="cauda"></g>
       </svg>
-      <img src="img/aethys.webp" alt="Aethys" width="560" height="560">
+      <img src="img/aethys.webp" alt="Aethys" width="560" height="560" draggable="false">
+      <!-- Front half: over the logo. -->
+      <svg class="frente" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M99 50 A49 17 0 0 1 1 50" fill="none" stroke="url(#luz)" stroke-width="0.5" transform="rotate(-22 50 50)"/>
+        <g class="cauda"></g>
+      </svg>
+      <div class="pegar" title="Arraste para girar a órbita"></div>
     </div>
     <h1><strong>Apps e jogos para todos</strong></h1>
   </section>
@@ -121,44 +126,83 @@
   </footer>
 </div>
 <script>
-// A órbita gira sozinha e também com o dedo ou o mouse: arraste em volta do logo. Ao soltar,
-// segue com o embalo e volta aos poucos ao giro calmo de sempre.
+// The star travels along the tilted orbit around the "A": behind the logo on the top half, in
+// front of it on the bottom half. Drag around the logo (mouse or finger) to move it; when released
+// it keeps the swing and slowly settles back to its calm pace.
 (() => {
   const area = document.getElementById('orbita');
-  const anel = document.getElementById('anel');
-  if (!area || !anel) return;
-  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 6; // graus por segundo
-  let ang = 0, vel = calmo, arrastando = false, ultimo = 0, ultimoT = 0;
-  const angulo = (e) => {
-    const r = area.getBoundingClientRect();
-    return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+  if (!area) return;
+  const pegar = area.querySelector('.pegar');
+  const [atras, frente] = [...area.querySelectorAll('svg .cauda')];
+  const RX = 49, RY = 17, TILT = (-22 * Math.PI) / 180, C = Math.cos(TILT), S = Math.sin(TILT);
+  const N = 9; // star + its tail
+  const ns = 'http://www.w3.org/2000/svg';
+  const pontos = [atras, frente].map((g) => Array.from({ length: N }, (_, k) => {
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('fill', k === 0 ? 'url(#estrela)' : '#cfdcff');
+    g.appendChild(c);
+    return c;
+  }));
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.42; // rad/s
+  let th = -0.6, vel = calmo, arrastando = false, ultimo = 0, ultimoT = 0;
+
+  const ponto = (t) => {
+    const x = RX * Math.cos(t), y = RY * Math.sin(t);
+    return [50 + x * C - y * S, 50 + x * S + y * C];
   };
-  const desenhar = () => anel.setAttribute('transform', `rotate(${ang.toFixed(2)} 50 50)`);
-  area.addEventListener('pointerdown', (e) => {
+  const desenhar = () => {
+    for (let k = 0; k < N; k++) {
+      const t = th - k * 0.05 * Math.sign(vel || 1);
+      const [x, y] = ponto(t);
+      const naFrente = Math.sin(t) > 0;
+      const prof = 0.8 + 0.2 * Math.sin(t); // a bit smaller and dimmer when far away
+      const r = k === 0 ? 3.4 * prof : (0.75 - k * 0.07) * prof;
+      const op = k === 0 ? 1 : Math.min(1, Math.abs(vel) / 1.2 + 0.25) * (1 - k / N) * prof;
+      for (let lado = 0; lado < 2; lado++) {
+        const c = pontos[lado][k];
+        const ve = (lado === 1) === naFrente;
+        c.setAttribute('cx', x.toFixed(2)); c.setAttribute('cy', y.toFixed(2)); c.setAttribute('r', Math.max(r, 0.1).toFixed(2));
+        c.setAttribute('opacity', ve ? op.toFixed(2) : '0');
+      }
+    }
+  };
+  // Pointer to orbit angle: undo the tilt and the squash of the ellipse.
+  const angulo = (e) => {
+    const r = area.querySelector('svg').getBoundingClientRect();
+    const u = 100 / r.width;
+    const vx = (e.clientX - (r.left + r.width / 2)) * u, vy = (e.clientY - (r.top + r.height / 2)) * u;
+    const x = vx * C + vy * S, y = -vx * S + vy * C;
+    return Math.atan2(y / RY, x / RX);
+  };
+  pegar.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
     arrastando = true; ultimo = angulo(e); ultimoT = performance.now(); vel = 0;
-    area.setPointerCapture(e.pointerId); area.classList.add('pegando');
+    pegar.setPointerCapture(e.pointerId); area.classList.add('pegando');
   });
-  area.addEventListener('pointermove', (e) => {
+  pegar.addEventListener('pointermove', (e) => {
     if (!arrastando) return;
     const a = angulo(e), t = performance.now();
-    let d = a - ultimo; if (d > 180) d -= 360; if (d < -180) d += 360;
-    ang += d;
+    let d = a - ultimo; if (d > Math.PI) d -= 2 * Math.PI; if (d < -Math.PI) d += 2 * Math.PI;
+    th += d;
     const dt = Math.max(t - ultimoT, 1) / 1000;
-    vel = 0.7 * vel + 0.3 * Math.max(-720, Math.min(720, d / dt));
+    vel = 0.7 * vel + 0.3 * Math.max(-12, Math.min(12, d / dt));
     ultimo = a; ultimoT = t; desenhar();
   });
   const soltar = () => { arrastando = false; area.classList.remove('pegando'); };
-  area.addEventListener('pointerup', soltar);
-  area.addEventListener('pointercancel', soltar);
+  pegar.addEventListener('pointerup', soltar);
+  pegar.addEventListener('pointercancel', soltar);
+  pegar.addEventListener('dragstart', (e) => e.preventDefault());
   let antes = performance.now();
   const quadro = (t) => {
     const dt = Math.min((t - antes) / 1000, 0.05); antes = t;
     if (!arrastando) {
-      vel += (calmo - vel) * Math.min(1, dt * 0.9); // o embalo vai acabando
-      ang += vel * dt; desenhar();
+      vel += (calmo - vel) * Math.min(1, dt * 0.8);
+      th += vel * dt;
     }
+    desenhar();
     requestAnimationFrame(quadro);
   };
+  desenhar();
   requestAnimationFrame(quadro);
 })();
 </script>

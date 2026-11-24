@@ -84,10 +84,12 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-
   -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%);
   mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%);
 }
-.orbita svg { position: absolute; inset: -14%; width: 128%; height: 128%; overflow: visible; }
-.orbita { cursor: grab; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
-.orbita.pegando { cursor: grabbing; }
+.orbita svg { position: absolute; inset: -14%; width: 128%; height: 128%; overflow: visible; pointer-events: none; }
+.orbita { -webkit-user-select: none; user-select: none; }
 .orbita img { pointer-events: none; -webkit-user-drag: none; }
+/* Grab area: the whole circle the orbit sweeps, above the logo. */
+.orbita .pegar { position: absolute; inset: -14%; border-radius: 50%; cursor: grab; touch-action: pan-y; z-index: 2; }
+.orbita.pegando .pegar { cursor: grabbing; }
 .abertura h1 {
   font: 300 clamp(1.7rem, 4.6vw, 2.6rem)/1.2 var(--marca);
   margin: 18px 0 10px;
@@ -185,7 +187,7 @@ ul.breve { padding: 0; margin: 0; }
   .topo nav { display: none; }
   .texto { padding: 24px 18px 32px; width: calc(100% - 32px); }
   .orbita { width: min(300px, 70vw); }
-  .orbita svg { inset: -8%; width: 116%; height: 116%; }
+  .orbita svg, .orbita .pegar { inset: -8%; width: 116%; height: 116%; }
   .cartao h3 { font-size: 1.7rem; }
   .terco h3 { font-size: 2.1rem; }
 }
