@@ -24,7 +24,7 @@
   </header>
 
   <section class="abertura">
-    <div class="orbita">
+    <div class="orbita" id="orbita" title="Arraste para girar a órbita">
       <svg viewBox="0 0 100 100" aria-hidden="true">
         <defs>
           <linearGradient id="luz" x1="0" y1="0" x2="1" y2="1">
@@ -35,15 +35,14 @@
           <radialGradient id="estrela"><stop offset="0" stop-color="#fff"/><stop offset="0.35" stop-color="#cfe0ff" stop-opacity="0.9"/><stop offset="1" stop-color="#8fa8ff" stop-opacity="0"/></radialGradient>
         </defs>
         <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(160,175,255,0.12)" stroke-width="0.25"/>
-        <g class="anel">
+        <g class="anel" id="anel">
           <ellipse cx="50" cy="50" rx="49" ry="17" fill="none" stroke="url(#luz)" stroke-width="0.45" transform="rotate(-22 50 50)"/>
           <circle cx="94.5" cy="32" r="3.2" fill="url(#estrela)"/>
         </g>
       </svg>
       <img src="img/aethys.webp" alt="Aethys" width="560" height="560">
     </div>
-    <h1>Apps e jogos leves <strong>como o éter</strong></h1>
-    <p>Feitos com cuidado, para o que importa: rezar, conversar, jogar junto. Sem anúncios e sem cadastro.</p>
+    <h1><strong>Apps e jogos para todos</strong></h1>
   </section>
 
   <section class="secao" id="destaques">
@@ -89,7 +88,7 @@
         <p>Cada um recebe um número secreto. Juntos, vocês montam uma escala só, e a sala acerta ou erra junto.</p>
         <div class="detalhe">
           <span class="selo">Jogo colaborativo</span>
-          <span>3 a 20 pessoas</span>
+          <span>2 a 20 pessoas</span>
         </div>
       </article>
     </div>
@@ -110,11 +109,7 @@
       <div class="politicas">
         <h4>Privacidade e termos</h4>
         <ul>
-          <li><a href="terco-para-desbloquear/privacidade.html">Terço</a> · <a href="terco-para-desbloquear/termos.html">termos</a></li>
-          <li><a href="dias-sem-bet/privacidade.html">Dias Sem Bet</a> · <a href="dias-sem-bet/termos.html">termos</a></li>
-          <li><a href="estude-e-libere/privacidade.html">Estude e Libere</a> · <a href="estude-e-libere/termos.html">termos</a></li>
-          <li><a href="contas-em-dia/privacidade.html">Contas em Dia</a> · <a href="contas-em-dia/termos.html">termos</a></li>
-          <li><a href="passatempo/privacidade.html">Passatempo</a> · <a href="passatempo/termos.html">termos</a></li>
+          <li>Terço: <a href="terco-para-desbloquear/privacidade.html">privacidade</a> · <a href="terco-para-desbloquear/termos.html">termos</a></li>
         </ul>
       </div>
       <div>
@@ -125,5 +120,47 @@
     </div>
   </footer>
 </div>
+<script>
+// A órbita gira sozinha e também com o dedo ou o mouse: arraste em volta do logo. Ao soltar,
+// segue com o embalo e volta aos poucos ao giro calmo de sempre.
+(() => {
+  const area = document.getElementById('orbita');
+  const anel = document.getElementById('anel');
+  if (!area || !anel) return;
+  const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 6; // graus por segundo
+  let ang = 0, vel = calmo, arrastando = false, ultimo = 0, ultimoT = 0;
+  const angulo = (e) => {
+    const r = area.getBoundingClientRect();
+    return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+  };
+  const desenhar = () => anel.setAttribute('transform', `rotate(${ang.toFixed(2)} 50 50)`);
+  area.addEventListener('pointerdown', (e) => {
+    arrastando = true; ultimo = angulo(e); ultimoT = performance.now(); vel = 0;
+    area.setPointerCapture(e.pointerId); area.classList.add('pegando');
+  });
+  area.addEventListener('pointermove', (e) => {
+    if (!arrastando) return;
+    const a = angulo(e), t = performance.now();
+    let d = a - ultimo; if (d > 180) d -= 360; if (d < -180) d += 360;
+    ang += d;
+    const dt = Math.max(t - ultimoT, 1) / 1000;
+    vel = 0.7 * vel + 0.3 * Math.max(-720, Math.min(720, d / dt));
+    ultimo = a; ultimoT = t; desenhar();
+  });
+  const soltar = () => { arrastando = false; area.classList.remove('pegando'); };
+  area.addEventListener('pointerup', soltar);
+  area.addEventListener('pointercancel', soltar);
+  let antes = performance.now();
+  const quadro = (t) => {
+    const dt = Math.min((t - antes) / 1000, 0.05); antes = t;
+    if (!arrastando) {
+      vel += (calmo - vel) * Math.min(1, dt * 0.9); // o embalo vai acabando
+      ang += vel * dt; desenhar();
+    }
+    requestAnimationFrame(quadro);
+  };
+  requestAnimationFrame(quadro);
+})();
+</script>
 </body>
 </html>

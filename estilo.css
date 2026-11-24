@@ -85,8 +85,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-
   mask-image: radial-gradient(circle at 50% 50%, #000 52%, transparent 71%);
 }
 .orbita svg { position: absolute; inset: -14%; width: 128%; height: 128%; overflow: visible; }
-.orbita .anel { animation: girar 60s linear infinite; transform-origin: 50% 50%; }
-@keyframes girar { to { transform: rotate(360deg); } }
+.orbita { cursor: grab; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.orbita.pegando { cursor: grabbing; }
+.orbita img { pointer-events: none; -webkit-user-drag: none; }
 .abertura h1 {
   font: 300 clamp(1.7rem, 4.6vw, 2.6rem)/1.2 var(--marca);
   margin: 18px 0 10px;
@@ -189,6 +190,6 @@ ul.breve { padding: 0; margin: 0; }
   .terco h3 { font-size: 2.1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  body::after, .orbita .anel { animation: none; }
+  body::after { animation: none; }
   .cartao { transition: none; }
 }
