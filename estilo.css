@@ -135,6 +135,19 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-
   background: var(--selo-fundo); color: var(--lema); border: 1px solid var(--borda-cor);
 }
 .cartao .detalhe a { color: var(--texto2); }
+/* "Play in the browser" (D-026): the web build served by the Cloudflare Worker. */
+.cartao .jogar {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; align-self: stretch;
+  padding: 12px 18px; border-radius: 14px; text-decoration: none;
+  font: 600 0.98rem/1 var(--marca); color: var(--ceu);
+  background: linear-gradient(90deg, var(--botao1), var(--botao2));
+  box-shadow: 0 10px 26px -12px var(--sombra); transition: transform 0.15s ease, filter 0.15s ease;
+}
+.cartao .jogar:hover { color: var(--ceu); filter: brightness(1.08); transform: translateY(-1px); }
+.cartao .jogar span { transition: transform 0.15s ease; }
+.cartao .jogar:hover span { transform: translateX(3px); }
+.consenso { --botao1: #f0b94a; --botao2: #c88bff; }
+.escala { --botao1: #1fb8c1; --botao2: #f0a43c; }
 .cartao .detalhe a:hover { color: var(--texto); }
 
 /* Terço: azul-mariano e dourado, serifa de livro de orações */
