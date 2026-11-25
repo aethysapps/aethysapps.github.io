@@ -194,6 +194,12 @@ ul.breve { padding: 0; margin: 0; }
 .texto p, .texto li { color: #d5daf3; }
 .texto code { font-size: 0.9em; background: rgba(140, 150, 220, 0.14); padding: 1px 6px; border-radius: 6px; }
 .texto nav { border-bottom: 1px solid var(--vidro-borda); padding-bottom: 12px; margin-bottom: 24px; font-size: 0.95rem; }
+/* Links internos ("English"): rolam suaves e o titulo pisca, para o clique ter efeito
+   mesmo quando a pagina e curta e a secao ja esta na tela. */
+html { scroll-behavior: smooth; }
+.texto h2[id] { scroll-margin-top: 16px; border-radius: 8px; }
+.texto h2:target { animation: alvo 2s ease-out; }
+@keyframes alvo { 0%, 30% { background: rgba(140, 150, 255, 0.3); box-shadow: 0 0 0 8px rgba(140, 150, 255, 0.3); } 100% { background: transparent; box-shadow: 0 0 0 8px transparent; } }
 .meta { color: var(--texto3); font-size: 0.9rem; }
 
 @media (max-width: 560px) {
